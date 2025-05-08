@@ -6,6 +6,10 @@ export interface PublicContent {
   id: string;
   content_type_id: string;
   content_type_slug: string;
+  content_type_ui_config?: {
+    template?: string;
+    [key: string]: any;
+  };
   title: string;
   slug: string;
   content: any;

@@ -1,7 +1,7 @@
-// src/components/templates/ProductTemplate.tsx
+// src/components/structured/templates/types/ProductTemplate.tsx
 import React from 'react';
 import { PublicContent } from '@/api/publicContentClient';
-import FieldRenderer from '@/components/fields/FieldRenderer';
+import FieldRenderer from '@/components/structured/rendering/FieldRenderer';
 import Image from 'next/image';
 
 interface ProductTemplateProps {
@@ -134,7 +134,6 @@ export default function ProductTemplate({ content }: ProductTemplateProps) {
                 <FieldRenderer 
                   fieldType="richtext" 
                   value={description} 
-                  config={{}} 
                 />
               </div>
             </div>

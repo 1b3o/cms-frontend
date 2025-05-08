@@ -1,4 +1,4 @@
-// src/components/templates/TemplateManager.tsx
+// src/components/admin/templates/TemplateManager.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -14,6 +14,16 @@ const AVAILABLE_TEMPLATES = [
   { id: 'article', name: 'Article Template' },
   { id: 'page', name: 'Page Template' },
   { id: 'product', name: 'Product Template' },
+  { id: 'event', name: 'Event Template' },
+  { id: 'team_member', name: 'Team Member Template' },
+  { id: 'testimonial', name: 'Testimonial Template' },
+  { id: 'faq', name: 'FAQ Template' },
+  { id: 'widget', name: 'Widget Template' },
+  { id: 'portfolio', name: 'Portfolio Template' },
+  { id: 'form', name: 'Form Template' },
+  { id: 'menu', name: 'Menu Template' },
+  { id: 'gallery', name: 'Gallery Template' },
+  { id: 'landing_page', name: 'Landing Page Template' }
 ];
 
 export default function TemplateManager() {
@@ -33,13 +43,13 @@ export default function TemplateManager() {
       const types = await contentTypeApi.getAllContentTypes();
       setContentTypes(types);
       
-      // Initialize template assignments from content type metadata
+      // Initialize template assignments from content type UI config
       const assignments: Record<string, string> = {};
       types.forEach(type => {
         if (type.ui_config?.template) {
           assignments[type.id] = type.ui_config.template;
         } else {
-          assignments[type.id] = 'default'; // Default template if none assigned
+          assignments[type.id] = type.slug; // Default to same as slug
         }
       });
       
@@ -61,6 +71,9 @@ export default function TemplateManager() {
 
   const saveTemplateAssignments = async () => {
     try {
+      setError(null);
+      setSuccess(null);
+      
       // Save template assignments to each content type
       for (const contentTypeId in templateAssignments) {
         const contentType = contentTypes.find(ct => ct.id === contentTypeId);
@@ -85,15 +98,24 @@ export default function TemplateManager() {
   };
 
   if (loading) {
-    return <div>Loading template manager...</div>;
+    return <div className="flex items-center justify-center p-12">
+      <div className="text-center">
+        <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-gray-500">Loading template manager...</p>
+      </div>
+    </div>;
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Template Manager</h1>
-      <p className="text-muted-foreground">
-        Assign templates to different content types
-      </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold">Template Manager</h1>
+          <p className="text-muted-foreground">
+            Assign templates to different content types
+          </p>
+        </div>
+      </div>
       
       {error && (
         <Alert variant="destructive">
@@ -124,7 +146,7 @@ export default function TemplateManager() {
                 <div className="w-1/3 font-medium">{contentType.name}</div>
                 <div className="flex-1">
                   <Select
-                    value={templateAssignments[contentType.id] || 'default'}
+                    value={templateAssignments[contentType.id] || contentType.slug}
                     onValueChange={(value) => handleTemplateChange(contentType.id, value)}
                   >
                     <SelectTrigger>

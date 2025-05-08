@@ -1,7 +1,7 @@
-// src/components/templates/PageTemplate.tsx
+// src/components/structured/templates/types/PageTemplate.tsx
 import React from 'react';
 import { PublicContent } from '@/api/publicContentClient';
-import FieldRenderer from '@/components/fields/FieldRenderer';
+import FieldRenderer from '@/components/structured/rendering/FieldRenderer';
 import Image from 'next/image';
 
 interface PageTemplateProps {
@@ -10,18 +10,21 @@ interface PageTemplateProps {
 
 export default function PageTemplate({ content }: PageTemplateProps) {
   // Extract common fields for pages
-  const heroImage = content.content.hero_image;
+  const heroTitle = content.content.hero_title || content.title;
   const subtitle = content.content.subtitle;
+  const heroImage = content.content.hero_image;
   const bodyContent = content.content.body;
+  const ctaText = content.content.cta_text;
+  const ctaLink = content.content.cta_link;
   const sections = content.content.sections;
 
   return (
     <article className="container mx-auto px-4 py-8 max-w-5xl">
       <header className="mb-12 text-center">
-        <h1 className="text-5xl font-bold mb-6">{content.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">{heroTitle}</h1>
         
         {subtitle && (
-          <div className="text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <div className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
             {subtitle}
           </div>
         )}
@@ -30,7 +33,7 @@ export default function PageTemplate({ content }: PageTemplateProps) {
           <div className="mt-8 rounded-lg overflow-hidden">
             <Image 
               src={heroImage} 
-              alt={`Hero image for: ${content.title}`}
+              alt={`Hero image: ${content.title}`}
               width={1200}
               height={600}
               className="w-full object-cover"
@@ -45,7 +48,6 @@ export default function PageTemplate({ content }: PageTemplateProps) {
           <FieldRenderer 
             fieldType="richtext" 
             value={bodyContent} 
-            config={{}} 
           />
         )}
         
@@ -60,7 +62,6 @@ export default function PageTemplate({ content }: PageTemplateProps) {
               <FieldRenderer 
                 fieldType="richtext" 
                 value={section.content} 
-                config={{}} 
               />
             )}
             
@@ -81,7 +82,7 @@ export default function PageTemplate({ content }: PageTemplateProps) {
         {/* Render all other fields that haven't been explicitly handled */}
         {content.fields.map(field => {
           // Skip fields that we've already processed
-          if (['hero_image', 'subtitle', 'body', 'sections'].includes(field.slug)) {
+          if (['hero_title', 'subtitle', 'hero_image', 'body', 'cta_text', 'cta_link', 'sections'].includes(field.slug)) {
             return null;
           }
           
@@ -101,14 +102,14 @@ export default function PageTemplate({ content }: PageTemplateProps) {
         })}
       </div>
       
-      {/* Footer area with additional info or calls to action */}
-      {(content.content.cta_text && content.content.cta_link) && (
+      {/* Call to Action */}
+      {(ctaText && ctaLink) && (
         <div className="mt-12 text-center">
           <a 
-            href={content.content.cta_link} 
+            href={ctaLink} 
             className="inline-block px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
           >
-            {content.content.cta_text}
+            {ctaText}
           </a>
         </div>
       )}

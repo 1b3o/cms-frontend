@@ -1,7 +1,7 @@
-// src/components/templates/DefaultTemplate.tsx
+// src/components/structured/templates/types/DefaultTemplate.tsx
 import React from 'react';
 import { PublicContent } from '@/api/publicContentClient';
-import FieldRenderer from '@/components/fields/FieldRenderer';
+import FieldRenderer from '@/components/structured/rendering/FieldRenderer';
 
 interface DefaultTemplateProps {
   content: PublicContent;
@@ -19,8 +19,8 @@ export default function DefaultTemplate({ content }: DefaultTemplateProps) {
         )}
       </header>
 
-      <div className="content-body">
-        {/* Rendert dynamisch alle Felder des Inhalts */}
+      <div className="content-body space-y-8">
+        {/* Render all fields of the content */}
         {content.fields.map(field => {
           const fieldValue = content.content[field.slug];
           if (fieldValue === undefined || fieldValue === null) return null;
@@ -38,7 +38,7 @@ export default function DefaultTemplate({ content }: DefaultTemplateProps) {
         })}
       </div>
       
-      {/* Metadaten-Bereich (optional anzeigen) */}
+      {/* Metadata section (optional) */}
       {content.metadata && Object.keys(content.metadata).length > 0 && (
         <div className="mt-12 pt-6 border-t border-gray-200">
           <h3 className="text-lg font-semibold mb-2">Zusätzliche Informationen</h3>

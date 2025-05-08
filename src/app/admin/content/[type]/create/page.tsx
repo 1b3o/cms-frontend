@@ -24,7 +24,7 @@ import { Switch } from "@/components/ui/switch";
 
 import { contentApi, CreateContentRequest } from '@/api/contentClient';
 import { contentTypeApi, ContentType, ContentField } from '@/api/contentTypeClient';
-import { DynamicField } from '@/components/content/DynamicField';
+import { DynamicField } from '@/components/structured/admin/DynamicField';
 
 // Define form schema
 const formSchema = z.object({

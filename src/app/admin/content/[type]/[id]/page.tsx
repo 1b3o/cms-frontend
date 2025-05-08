@@ -25,7 +25,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { contentApi, Content, UpdateContentRequest } from '@/api/contentClient';
 import { contentTypeApi, ContentType, ContentField } from '@/api/contentTypeClient';
-import { DynamicField } from '@/components/content/DynamicField';
+import { DynamicField } from '@/components/structured/admin/DynamicField';
 import { PageBuilderEditor } from '@/components/page-builder/core/PageBuilderEditor';
 
 // Define form schema

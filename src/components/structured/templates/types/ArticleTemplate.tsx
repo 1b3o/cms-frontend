@@ -1,7 +1,7 @@
-// src/components/templates/ArticleTemplate.tsx
+// src/components/structured/templates/types/ArticleTemplate.tsx
 import React from 'react';
 import { PublicContent } from '@/api/publicContentClient';
-import FieldRenderer from '@/components/fields/FieldRenderer';
+import FieldRenderer from '@/components/structured/rendering/FieldRenderer';
 import Image from 'next/image';
 
 interface ArticleTemplateProps {
@@ -9,7 +9,7 @@ interface ArticleTemplateProps {
 }
 
 export default function ArticleTemplate({ content }: ArticleTemplateProps) {
-  // Extrahiere häufig verwendete Felder
+  // Extract common fields for articles
   const featuredImage = content.content.featured_image;
   const summary = content.content.summary;
   const bodyContent = content.content.body;
@@ -45,7 +45,7 @@ export default function ArticleTemplate({ content }: ArticleTemplateProps) {
           <div className="mb-8 rounded-lg overflow-hidden">
             <Image 
               src={featuredImage} 
-              alt={`Titelbild: ${content.title}`}
+              alt={`Featured image: ${content.title}`}
               width={900}
               height={500}
               className="w-full object-cover"
@@ -54,19 +54,18 @@ export default function ArticleTemplate({ content }: ArticleTemplateProps) {
         )}
       </header>
 
-      {/* Hauptinhalt */}
+      {/* Main content */}
       <div className="prose prose-lg max-w-none mb-12">
         {bodyContent && (
           <FieldRenderer 
             fieldType="richtext" 
             value={bodyContent} 
-            config={{}} 
           />
         )}
         
-        {/* Rendere alle anderen Felder, die noch nicht explizit verarbeitet wurden */}
+        {/* Render all other fields that haven't been explicitly handled */}
         {content.fields.map(field => {
-          // Überspringe Felder, die wir bereits verarbeitet haben
+          // Skip fields that we've already processed
           if (['featured_image', 'summary', 'body', 'author', 'categories', 'tags'].includes(field.slug)) {
             return null;
           }
@@ -87,7 +86,7 @@ export default function ArticleTemplate({ content }: ArticleTemplateProps) {
         })}
       </div>
       
-      {/* Kategorien und Tags */}
+      {/* Categories and Tags */}
       <footer className="mt-8 pt-6 border-t border-gray-200">
         {categories && Array.isArray(categories) && categories.length > 0 && (
           <div className="mb-4">

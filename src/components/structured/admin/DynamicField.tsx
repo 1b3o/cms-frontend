@@ -18,7 +18,7 @@ import { de } from "date-fns/locale";
 import dynamic from "next/dynamic";
 
 // Dynamically import RichTextEditor to avoid SSR issues
-const RichTextEditor = dynamic(() => import("./RichTextEditor"), {
+const RichTextEditor = dynamic(() => import("@/components/structured/admin/RichTextEditor"), {
   ssr: false,
   loading: () => <div className="h-32 w-full border rounded-md bg-muted/20"></div>,
 });
